@@ -13,8 +13,9 @@ import (
 )
 
 type Config struct {
-	ApiKey string `json:"api_key"`
-	Env    string `json:"env"`
+	ApiKey      string `json:"api_key"`
+	Env         string `json:"env"`
+	PromptInput string `json:"prompt_input"`
 }
 
 func main() {
@@ -31,12 +32,12 @@ func main() {
 
 	model := client.GenerativeModel("gemini-pro")
 
-	resp, err := model.GenerateContent(ctx, genai.Text("Write a story about a magic backpack."))
+	resp, err := model.GenerateContent(ctx, genai.Text(conf.PromptInput))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	marshalResponse, _ := json.Marshal(resp)
+	marshalResponse, _ := json.MarshalIndent(resp, "", "	")
 	fmt.Println(string(marshalResponse))
 }
 
