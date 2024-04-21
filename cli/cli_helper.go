@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/google/generative-ai-go/genai"
@@ -11,6 +12,8 @@ const (
 )
 
 func (c *CLI) SubmitPrompt(model string) {
+	ctx := context.Background()
+
 	for {
 		fmt.Fprint(c.output, inputPrompt)
 		prompt := c.readLine()
@@ -21,7 +24,7 @@ func (c *CLI) SubmitPrompt(model string) {
 			return
 		}
 
-		c.printResponse(c.service.TextToText(model, prompt))
+		c.printResponse(c.service.TextToText(ctx, model, prompt))
 	}
 }
 

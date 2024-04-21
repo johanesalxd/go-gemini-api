@@ -10,7 +10,7 @@ import (
 
 func main() {
 	conf := new(config.Config)
-	conf.GetEnv()
+	conf.SetEnv()
 
 	genAI := client.NewGenAIClient(context.Background(), conf)
 	defer genAI.Client.Close()

@@ -23,6 +23,6 @@ func (s *Server) textToText(c *gin.Context) {
 		return
 	}
 
-	resp := s.service.TextToText(newPromptRequest.Model, newPromptRequest.PromptInput)
+	resp := s.service.TextToText(c.Request.Context(), newPromptRequest.Model, newPromptRequest.PromptInput)
 	c.IndentedJSON(http.StatusCreated, resp.Candidates[0].Content)
 }

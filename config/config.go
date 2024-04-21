@@ -12,7 +12,7 @@ type Config struct {
 	Model  string `json:"model"`
 }
 
-func (c *Config) GetEnv() {
+func (c *Config) SetEnv() {
 	file, err := os.Open("../../config/config.json")
 	if err != nil {
 		log.Fatal(err)
