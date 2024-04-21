@@ -1,5 +1,4 @@
 {
     "api_key": "",
-    "env": "dev",
-    "prompt_input": "Write a story about a magic backpack."
+    "model": "gemini-pro"
 }

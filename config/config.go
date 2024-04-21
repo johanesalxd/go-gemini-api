@@ -8,9 +8,8 @@ import (
 )
 
 type Config struct {
-	ApiKey      string `json:"api_key"`
-	Env         string `json:"env"`
-	PromptInput string `json:"prompt_input"`
+	ApiKey string `json:"api_key"`
+	Model  string `json:"model"`
 }
 
 func (c *Config) GetEnv() {
