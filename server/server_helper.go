@@ -2,17 +2,27 @@ package server
 
 import (
 	"log"
+	"net/http"
 
-	"github.com/google/generative-ai-go/genai"
+	"github.com/gin-gonic/gin"
 )
 
-func (g *GenAIClient) TextToText(model, promptInput string) *genai.GenerateContentResponse {
-	mdl := g.Client.GenerativeModel(model)
+func (s *Server) RunServer() {
+	router := gin.Default()
+	router.POST("/generatetext", s.textToText)
 
-	resp, err := mdl.GenerateContent(g.Ctx, genai.Text(promptInput))
-	if err != nil {
-		log.Fatal(err)
+	router.Run("localhost:8080")
+}
+
+func (s *Server) textToText(c *gin.Context) {
+	var newPromptRequest promptRequest
+
+	if err := c.Bind(&newPromptRequest); err != nil {
+		log.Print(err)
+
+		return
 	}
 
-	return resp
+	resp := s.service.TextToText(newPromptRequest.Model, newPromptRequest.PromptInput)
+	c.IndentedJSON(http.StatusCreated, resp.Candidates[0].Content)
 }

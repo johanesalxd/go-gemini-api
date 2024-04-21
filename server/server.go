@@ -1,31 +1,20 @@
 package server
 
 import (
-	"context"
-	"log"
-
-	"github.com/google/generative-ai-go/genai"
-	"github.com/johanesalxd/go-gemini-api/config"
-	"google.golang.org/api/option"
+	"github.com/johanesalxd/go-gemini-api/client"
 )
 
-type GenAIService interface {
-	TextToText(model, promptInput string) *genai.GenerateContentResponse
+type promptRequest struct {
+	PromptInput string `json:"prompt_input"`
+	Model       string `json:"model"`
 }
 
-type GenAIClient struct {
-	Ctx    context.Context
-	Client *genai.Client
+type Server struct {
+	service client.GenAIService
 }
 
-func NewGenAIClient(ctx context.Context, conf *config.Config) GenAIClient {
-	client, err := genai.NewClient(ctx, option.WithAPIKey(conf.ApiKey))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return GenAIClient{
-		Ctx:    ctx,
-		Client: client,
+func NewServer(service client.GenAIService) *Server {
+	return &Server{
+		service: service,
 	}
 }
