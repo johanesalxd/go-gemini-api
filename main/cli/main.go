@@ -17,5 +17,5 @@ func main() {
 	defer genAI.Client.Close()
 
 	cli := cli.NewCLI(os.Stdin, os.Stdout, &genAI)
-	cli.SubmitPrompt(conf.Model)
+	cli.SubmitChat(conf.Model)
 }

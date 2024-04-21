@@ -11,10 +11,12 @@ import (
 
 type GenAIService interface {
 	TextToText(ctx context.Context, model, promptInput string) *genai.GenerateContentResponse
+	TextToChat(ctx context.Context, model, promptInput string) *genai.GenerateContentResponse
 }
 
 type GenAIClient struct {
-	Client *genai.Client
+	Client      *genai.Client
+	ChatHistory []*genai.Content
 }
 
 func NewGenAIClient(ctx context.Context, conf *config.Config) GenAIClient {
@@ -24,6 +26,7 @@ func NewGenAIClient(ctx context.Context, conf *config.Config) GenAIClient {
 	}
 
 	return GenAIClient{
-		Client: client,
+		Client:      client,
+		ChatHistory: make([]*genai.Content, 0),
 	}
 }

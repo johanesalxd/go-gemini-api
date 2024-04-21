@@ -28,6 +28,23 @@ func (c *CLI) SubmitPrompt(model string) {
 	}
 }
 
+func (c *CLI) SubmitChat(model string) {
+	ctx := context.Background()
+
+	for {
+		fmt.Fprint(c.output, inputPrompt)
+		prompt := c.readLine()
+
+		if prompt == "exit" {
+			fmt.Fprint(c.output, "Bye bye!\n")
+
+			return
+		}
+
+		c.printResponse(c.service.TextToChat(ctx, model, prompt))
+	}
+}
+
 func (c *CLI) readLine() string {
 	c.input.Scan()
 
