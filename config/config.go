@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func (c *Config) GetEnv() {
-	file, err := os.Open("./config/config.json")
+	file, err := os.Open("../../config/config.json")
 	if err != nil {
 		log.Fatal(err)
 	}
