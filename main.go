@@ -16,20 +16,33 @@ func main() {
 	conf := new(config.Config)
 	conf.GetEnv()
 
+	client := newClient(ctx, conf)
+	defer client.Close()
+
+	printResponse(generateContent(ctx, client, "gemini-pro", conf.PromptInput))
+}
+
+func newClient(ctx context.Context, conf *config.Config) *genai.Client {
 	client, err := genai.NewClient(ctx, option.WithAPIKey(conf.ApiKey))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	defer client.Close()
+	return client
+}
 
-	model := client.GenerativeModel("gemini-pro")
+func generateContent(ctx context.Context, client *genai.Client, model, promptInput string) *genai.GenerateContentResponse {
+	mdl := client.GenerativeModel(model)
 
-	resp, err := model.GenerateContent(ctx, genai.Text(conf.PromptInput))
+	resp, err := mdl.GenerateContent(ctx, genai.Text(promptInput))
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	return resp
+}
+
+func printResponse(resp *genai.GenerateContentResponse) {
 	marshalResponse, _ := json.MarshalIndent(resp, "", "	")
 	fmt.Println(string(marshalResponse))
 }
